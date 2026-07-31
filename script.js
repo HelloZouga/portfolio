@@ -88,12 +88,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     draw() {
-      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      const theme = document.documentElement.getAttribute('data-theme');
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = isLight 
-        ? `rgba(15, 23, 42, ${this.alpha * 0.6})` 
-        : `rgba(255, 255, 255, ${this.alpha})`;
+      if (theme === 'purple') {
+        ctx.fillStyle = `rgba(192, 132, 252, ${this.alpha})`;
+      } else if (theme === 'light') {
+        ctx.fillStyle = `rgba(15, 23, 42, ${this.alpha * 0.6})`;
+      } else {
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+      }
       ctx.fill();
     }
   }
@@ -115,13 +119,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < 130) {
-          const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+          const theme = document.documentElement.getAttribute('data-theme');
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = isLight
-            ? `rgba(15, 23, 42, ${0.15 * (1 - dist / 130)})`
-            : `rgba(255, 255, 255, ${0.15 * (1 - dist / 130)})`;
+          if (theme === 'purple') {
+            ctx.strokeStyle = `rgba(168, 85, 247, ${0.25 * (1 - dist / 130)})`;
+          } else if (theme === 'light') {
+            ctx.strokeStyle = `rgba(15, 23, 42, ${0.15 * (1 - dist / 130)})`;
+          } else {
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.15 * (1 - dist / 130)})`;
+          }
           ctx.lineWidth = 0.8;
           ctx.stroke();
         }
@@ -192,10 +200,10 @@ document.addEventListener('DOMContentLoaded', () => {
   /* --- 4. Typewriter Effect --- */
   const typedTextSpan = document.getElementById('typed-text');
   const roles = [
-    "Senior Software Engineer",
-    "Full Stack & Cloud Architect",
-    "AI Application Developer",
-    "Monochrome Systems Craftsman"
+    "Aspiring Programmer",
+    "IBA Student @ Erasmus Univ. Rotterdam",
+    "Learning Python & JavaScript",
+    "Upcoming Game Creator"
   ];
   let roleIndex = 0;
   let charIndex = 0;
@@ -283,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* --- 6. Theme Switcher (Silver & Dark Monochrome) --- */
+  /* --- 6. Theme Switcher (Dark / Light / Purple) --- */
   const themeToggleBtn = document.getElementById('theme-toggle');
   const savedTheme = localStorage.getItem('theme') || 'dark';
 
@@ -292,41 +300,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
   themeToggleBtn.addEventListener('click', () => {
     const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    let newTheme = 'dark';
+    if (currentTheme === 'dark') {
+      newTheme = 'light';
+    } else if (currentTheme === 'light') {
+      newTheme = 'purple';
+    } else {
+      newTheme = 'dark';
+    }
     
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     updateThemeIcon(newTheme);
-    showToast(`Switched to monochrome ${newTheme} theme`);
+
+    const themeNames = {
+      dark: 'Monochrome Dark',
+      light: 'Monochrome Platinum Light',
+      purple: 'Cyber Violet Purple'
+    };
+    showToast(`Switched to ${themeNames[newTheme]} theme`);
   });
 
   function updateThemeIcon(theme) {
     const icon = themeToggleBtn.querySelector('i');
-    icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    if (theme === 'dark') {
+      icon.className = 'fa-solid fa-sun';
+      themeToggleBtn.title = 'Switch to Light Theme';
+    } else if (theme === 'light') {
+      icon.className = 'fa-solid fa-wand-magic-sparkles';
+      themeToggleBtn.title = 'Switch to Purple Theme';
+    } else {
+      icon.className = 'fa-solid fa-moon';
+      themeToggleBtn.title = 'Switch to Dark Theme';
+    }
   }
 
   /* --- 7. Dynamic Skills Display --- */
   const skillData = {
     frontend: [
-      { name: 'TypeScript / Modern JavaScript', level: 96 },
-      { name: 'React.js / Next.js 14', level: 94 },
-      { name: 'Vue.js / Nuxt 3', level: 88 },
-      { name: 'TailwindCSS / HTML5 / CSS Modules', level: 98 },
-      { name: 'Canvas API / Interactive Physics', level: 85 }
+      { name: 'JavaScript (Fundamentals & ES6)', level: 45 },
+      { name: 'HTML5 & CSS3 Layouts', level: 60 },
+      { name: 'DOM Manipulation & Interactivity', level: 50 },
+      { name: 'HTML5 Canvas 2D Game Basics', level: 40 }
     ],
     backend: [
-      { name: 'Node.js / Express / NestJS', level: 92 },
-      { name: 'Python / FastAPI / PyTorch', level: 90 },
-      { name: 'PostgreSQL / Redis Caching', level: 88 },
-      { name: 'GraphQL / gRPC / Microservices', level: 91 },
-      { name: 'Vector DBs (Pinecone / Qdrant)', level: 84 }
+      { name: 'Python (Basics & Data Structures)', level: 50 },
+      { name: 'Pygame & Game Loops', level: 45 },
+      { name: 'Object-Oriented Programming (OOP)', level: 40 },
+      { name: 'Git & Version Control', level: 55 }
     ],
     tools: [
-      { name: 'Docker / Kubernetes Orchestration', level: 86 },
-      { name: 'AWS / Vercel / Cloudflare Infrastructure', level: 90 },
-      { name: 'Git / GitHub Actions CI/CD', level: 95 },
-      { name: 'Jest / Cypress Automated Testing', level: 88 },
-      { name: 'Linux / Shell Scripting', level: 90 }
+      { name: 'VS Code & Dev Tools', level: 65 },
+      { name: 'International Business Strategy', level: 75 },
+      { name: 'Problem Solving & Logic', level: 70 },
+      { name: 'Game Design & Storyboarding', level: 60 }
     ]
   };
 
@@ -371,57 +398,43 @@ document.addEventListener('DOMContentLoaded', () => {
   const projects = [
     {
       id: 1,
-      title: "OmniFlow AI Studio",
-      category: "ai",
-      icon: "fa-brain",
-      tags: ["React", "TypeScript", "FastAPI", "Pinecone", "Silver UI"],
-      desc: "Visual workflow builder by Artemios Zouga for chaining LLMs, vector database retrieval, and execution nodes.",
-      details: "OmniFlow provides visual node-based execution graphs for AI agents. Features drag-and-drop prompt nodes, low-latency WebSocket streaming, and automated evaluation metrics for enterprise workflows."
+      title: "Interactive Personal Portfolio",
+      status: "Completed",
+      category: "completed",
+      icon: "fa-laptop-code",
+      tags: ["JavaScript", "HTML5", "CSS3", "Canvas API"],
+      desc: "My first completed web project! Designed in monochrome black, silver & purple with interactive particles and dynamic theme switching.",
+      details: "Built from scratch while learning JavaScript and web design. Features animated particle canvas physics, custom 3D card tilt effects, theme toggling, and asynchronous form dispatch."
     },
     {
       id: 2,
-      title: "CloudPulse Telemetry Engine",
-      category: "cloud",
-      icon: "fa-server",
-      tags: ["Go", "Node.js", "Docker", "TimescaleDB", "Grafana"],
-      desc: "High-throughput server performance telemetry metric collector and real-time incident alerting framework.",
-      details: "Monitors thousands of Kubernetes cluster nodes simultaneously. Includes anomaly detection algorithms using exponential smoothing and instant multi-channel alerts."
+      title: "ShadowQuest 2D RPG",
+      status: "Upcoming",
+      category: "gaming",
+      icon: "fa-gamepad",
+      tags: ["Python", "Pygame", "Tilemaps", "2D Physics"],
+      desc: "Upcoming 2D fantasy RPG built with Python & Pygame featuring custom tilemaps, inventory mechanics, and turn-based combat.",
+      details: "Currently designing the core game loop and engine architecture in Python using Pygame. Will feature retro pixel art graphics, sprite animations, and custom audio management."
     },
     {
       id: 3,
-      title: "SilverVortex E-Commerce",
-      category: "web",
-      icon: "fa-cart-shopping",
-      tags: ["Next.js 14", "GraphQL", "Stripe API", "PostgreSQL"],
-      desc: "Blazing fast headless e-commerce store with server-side rendering and silver monochrome aesthetic.",
-      details: "Achieved sub-100ms LCP scores globally by utilizing edge-caching middleware, optimized WebP pipelines, and responsive micro-frontends."
+      title: "Neon Cyber Runner",
+      status: "Upcoming",
+      category: "gaming",
+      icon: "fa-dice-d20",
+      tags: ["JavaScript", "Canvas API", "HTML5", "Game Loops"],
+      desc: "Upcoming fast-paced browser runner game written in vanilla JavaScript with HTML5 Canvas 2D rendering.",
+      details: "In early development phase. Focuses on smooth 60fps canvas game rendering, obstacle collision detection, dynamic difficulty scaling, and high score tracking."
     },
     {
       id: 4,
-      title: "NeuralCanvas Generative Studio",
-      category: "ai",
-      icon: "fa-wand-magic-sparkles",
-      tags: ["Python", "Stable Diffusion", "WebGPU", "React"],
-      desc: "Browser-based generative AI workspace powered by WebGPU in-browser inference.",
-      details: "Allows artists to generate vector UI assets, layer compositions, and edit generative images using direct canvas manipulations."
-    },
-    {
-      id: 5,
-      title: "DevMetrics CI Velocity",
-      category: "cloud",
-      icon: "fa-chart-line",
-      tags: ["TypeScript", "GitHub API", "Chart.js", "AWS Lambda"],
-      desc: "Automated code velocity and pull request metrics tool that tracks deployment pipeline bottlenecks.",
-      details: "Integrates with GitHub Enterprise to calculate DORA metrics (Deployment Frequency, Lead Time for Changes, Mean Time to Recovery) with interactive drill-down analytics."
-    },
-    {
-      id: 6,
-      title: "HyperSync Workspace",
-      category: "web",
-      icon: "fa-comments",
-      tags: ["WebSockets", "Vue.js 3", "Redis", "Node.js"],
-      desc: "Collaborative real-time document editing and team messaging application with end-to-end encryption.",
-      details: "Built with Conflict-free Replicated Data Types (CRDTs) to support real-time offline document synchronization across thousands of concurrent users."
+      title: "Aegean Mythos Adventure",
+      status: "Upcoming",
+      category: "gaming",
+      icon: "fa-shield-halved",
+      tags: ["Python", "OOP Design", "Narrative Engine", "Game Logic"],
+      desc: "Upcoming narrative-driven adventure game inspired by ancient Greek mythology, strategic choices, and branching decision trees.",
+      details: "Planning object-oriented storyline branching, save state persistence, character inventory crafting, and interactive dialogue engines."
     }
   ];
 
@@ -440,6 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
       card.innerHTML = `
         <div class="project-banner">
           <i class="fa-solid ${project.icon}"></i>
+          <span class="project-status-badge ${project.status.toLowerCase()}">${project.status}</span>
           <div class="project-overlay">
             <div class="overlay-btn view-details-btn" data-id="${project.id}" title="View Details">
               <i class="fa-solid fa-eye"></i>

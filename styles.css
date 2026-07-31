@@ -67,6 +67,32 @@
   --shadow-glow: 0 0 25px rgba(0, 0, 0, 0.15);
 }
 
+/* Purple Cyberpunk / Violet Theme Overrides */
+[data-theme="purple"] {
+  --bg-primary: #0a0614;
+  --bg-secondary: #130a24;
+  --bg-tertiary: #1f1038;
+  --bg-glass: rgba(19, 10, 36, 0.88);
+  --bg-glass-card: rgba(31, 16, 56, 0.65);
+  --border-color: rgba(168, 85, 247, 0.3);
+  --border-hover: rgba(192, 132, 252, 0.8);
+
+  --text-main: #f5f3ff;
+  --text-muted: #ddd6fe;
+  --text-dim: #c084fc;
+
+  --accent-silver: #c084fc;
+  --accent-platinum: #f3e8ff;
+  --accent-dark-silver: #a855f7;
+  --accent-gradient: linear-gradient(135deg, #f3e8ff 0%, #c084fc 40%, #a855f7 70%, #7e22ce 100%);
+  --accent-glow: rgba(168, 85, 247, 0.4);
+
+  --shadow-sm: 0 4px 6px -1px rgba(10, 6, 20, 0.6);
+  --shadow-md: 0 10px 25px -5px rgba(126, 34, 206, 0.35);
+  --shadow-glow: 0 0 25px rgba(168, 85, 247, 0.45);
+}
+
+
 /* --- Base & Reset --- */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -114,6 +140,14 @@ button, input, textarea {
   transform: translate(-50%, -50%);
   z-index: 9999;
   transition: transform 0.05s ease-out;
+}
+
+[data-theme="light"] .cursor-glow {
+  background: radial-gradient(circle, rgba(15, 23, 42, 0.08) 0%, rgba(15, 23, 42, 0) 70%);
+}
+
+[data-theme="purple"] .cursor-glow {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.22) 0%, rgba(168, 85, 247, 0) 70%);
 }
 
 /* --- Background Canvas & Particles --- */
@@ -1084,6 +1118,32 @@ button, input, textarea {
 textarea.form-control {
   resize: vertical;
   min-height: 120px;
+}
+
+/* --- Project Status Badges --- */
+.project-status-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  z-index: 5;
+}
+
+.project-status-badge.completed {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.project-status-badge.upcoming {
+  background: rgba(168, 85, 247, 0.2);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.4);
 }
 
 /* --- Project Details Modal --- */
