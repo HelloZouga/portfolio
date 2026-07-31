@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Monochrome Interactive Portfolio Engine - Aris Zouga
+   Monochrome Interactive Portfolio Engine - Artemios Zouga
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -352,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
       category: "ai",
       icon: "fa-brain",
       tags: ["React", "TypeScript", "FastAPI", "Pinecone", "Silver UI"],
-      desc: "Visual workflow builder by Aris Zouga for chaining LLMs, vector database retrieval, and execution nodes.",
+      desc: "Visual workflow builder by Artemios Zouga for chaining LLMs, vector database retrieval, and execution nodes.",
       details: "OmniFlow provides visual node-based execution graphs for AI agents. Features drag-and-drop prompt nodes, low-latency WebSocket streaming, and automated evaluation metrics for enterprise workflows."
     },
     {
@@ -536,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
               { name: "📌 Subject", value: subject || "N/A", inline: false },
               { name: "💬 Message Content", value: message, inline: false }
             ],
-            footer: { text: "Aris Zouga Portfolio • Direct Discord Dispatch" },
+            footer: { text: "Artemios Zouga Portfolio • Direct Discord Dispatch" },
             timestamp: new Date().toISOString()
           }
         ]
