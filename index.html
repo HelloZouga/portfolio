@@ -41,9 +41,34 @@
       </ul>
 
       <div class="nav-actions">
-        <button class="theme-toggle" id="theme-toggle" title="Toggle Light/Dark Theme">
-          <i class="fa-solid fa-moon"></i>
-        </button>
+        <div class="theme-palette-wrapper">
+          <button class="theme-toggle" id="theme-toggle" title="Cycle / Select Theme Color">
+            <i class="fa-solid fa-palette"></i>
+          </button>
+          <div class="theme-dropdown" id="theme-dropdown">
+            <div class="theme-dropdown-header">Color Themes</div>
+            <div class="theme-options">
+              <button class="theme-option-btn" data-theme-val="dark" title="Monochrome Dark">
+                <span class="swatch" style="background: #050505; border: 1px solid #94a3b8;"></span> Dark
+              </button>
+              <button class="theme-option-btn" data-theme-val="light" title="Platinum Light">
+                <span class="swatch" style="background: #f1f5f9; border: 1px solid #475569;"></span> Light
+              </button>
+              <button class="theme-option-btn" data-theme-val="purple" title="Cyber Violet Purple">
+                <span class="swatch" style="background: #a855f7;"></span> Purple
+              </button>
+              <button class="theme-option-btn" data-theme-val="orange" title="Sunset Amber Orange">
+                <span class="swatch" style="background: #f97316;"></span> Orange
+              </button>
+              <button class="theme-option-btn" data-theme-val="darkblue" title="Deep Ocean Dark Blue">
+                <span class="swatch" style="background: #2563eb;"></span> Dark Blue
+              </button>
+              <button class="theme-option-btn" data-theme-val="red" title="Crimson Ruby Red">
+                <span class="swatch" style="background: #ef4444;"></span> Red
+              </button>
+            </div>
+          </div>
+        </div>
         <div class="mobile-menu-btn" id="mobile-menu-btn">
           <i class="fa-solid fa-bars"></i>
         </div>

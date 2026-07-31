@@ -93,6 +93,12 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       if (theme === 'purple') {
         ctx.fillStyle = `rgba(192, 132, 252, ${this.alpha})`;
+      } else if (theme === 'orange') {
+        ctx.fillStyle = `rgba(251, 146, 60, ${this.alpha})`;
+      } else if (theme === 'darkblue') {
+        ctx.fillStyle = `rgba(96, 165, 250, ${this.alpha})`;
+      } else if (theme === 'red') {
+        ctx.fillStyle = `rgba(248, 113, 113, ${this.alpha})`;
       } else if (theme === 'light') {
         ctx.fillStyle = `rgba(15, 23, 42, ${this.alpha * 0.6})`;
       } else {
@@ -125,6 +131,12 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.lineTo(particles[j].x, particles[j].y);
           if (theme === 'purple') {
             ctx.strokeStyle = `rgba(168, 85, 247, ${0.25 * (1 - dist / 130)})`;
+          } else if (theme === 'orange') {
+            ctx.strokeStyle = `rgba(249, 115, 22, ${0.25 * (1 - dist / 130)})`;
+          } else if (theme === 'darkblue') {
+            ctx.strokeStyle = `rgba(59, 130, 246, ${0.25 * (1 - dist / 130)})`;
+          } else if (theme === 'red') {
+            ctx.strokeStyle = `rgba(239, 68, 68, ${0.25 * (1 - dist / 130)})`;
           } else if (theme === 'light') {
             ctx.strokeStyle = `rgba(15, 23, 42, ${0.15 * (1 - dist / 130)})`;
           } else {
@@ -291,49 +303,57 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* --- 6. Theme Switcher (Dark / Light / Purple) --- */
+  /* --- 6. Theme Switcher (Dark / Light / Purple / Orange / Dark Blue / Red) --- */
   const themeToggleBtn = document.getElementById('theme-toggle');
+  const themeOptionBtns = document.querySelectorAll('.theme-option-btn');
   const savedTheme = localStorage.getItem('theme') || 'dark';
 
-  document.documentElement.setAttribute('data-theme', savedTheme);
-  updateThemeIcon(savedTheme);
+  const themeOrder = ['dark', 'light', 'purple', 'orange', 'darkblue', 'red'];
+  const themeNames = {
+    dark: 'Monochrome Dark',
+    light: 'Monochrome Platinum Light',
+    purple: 'Cyber Violet Purple',
+    orange: 'Sunset Amber Orange',
+    darkblue: 'Deep Ocean Dark Blue',
+    red: 'Crimson Ruby Red'
+  };
 
-  themeToggleBtn.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    let newTheme = 'dark';
-    if (currentTheme === 'dark') {
-      newTheme = 'light';
-    } else if (currentTheme === 'light') {
-      newTheme = 'purple';
-    } else {
-      newTheme = 'dark';
-    }
-    
+  function applyTheme(newTheme, notify = false) {
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
-    updateThemeIcon(newTheme);
+    
+    // Update active class on dropdown swatches
+    themeOptionBtns.forEach(btn => {
+      if (btn.getAttribute('data-theme-val') === newTheme) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
 
-    const themeNames = {
-      dark: 'Monochrome Dark',
-      light: 'Monochrome Platinum Light',
-      purple: 'Cyber Violet Purple'
-    };
-    showToast(`Switched to ${themeNames[newTheme]} theme`);
-  });
-
-  function updateThemeIcon(theme) {
-    const icon = themeToggleBtn.querySelector('i');
-    if (theme === 'dark') {
-      icon.className = 'fa-solid fa-sun';
-      themeToggleBtn.title = 'Switch to Light Theme';
-    } else if (theme === 'light') {
-      icon.className = 'fa-solid fa-wand-magic-sparkles';
-      themeToggleBtn.title = 'Switch to Purple Theme';
-    } else {
-      icon.className = 'fa-solid fa-moon';
-      themeToggleBtn.title = 'Switch to Dark Theme';
+    if (notify) {
+      showToast(`Switched to ${themeNames[newTheme] || newTheme} theme`);
     }
   }
+
+  applyTheme(savedTheme, false);
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      const currentIndex = themeOrder.indexOf(currentTheme);
+      const nextIndex = (currentIndex + 1) % themeOrder.length;
+      const nextTheme = themeOrder[nextIndex];
+      applyTheme(nextTheme, true);
+    });
+  }
+
+  themeOptionBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTheme = btn.getAttribute('data-theme-val');
+      applyTheme(targetTheme, true);
+    });
+  });
 
   /* --- 7. Dynamic Skills Display --- */
   const skillData = {
