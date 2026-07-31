@@ -4,6 +4,29 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* --- Environment Configuration (.env loader) --- */
+  let envConfig = {};
+  async function loadEnv() {
+    try {
+      const response = await fetch('.env');
+      if (response.ok) {
+        const text = await response.text();
+        text.split('\n').forEach(line => {
+          const trimmed = line.trim();
+          if (trimmed && !trimmed.startsWith('#')) {
+            const [key, ...valParts] = trimmed.split('=');
+            if (key) {
+              envConfig[key.trim()] = valParts.join('=').trim();
+            }
+          }
+        });
+      }
+    } catch (e) {
+      console.warn('Unable to load .env configuration file:', e);
+    }
+  }
+  loadEnv();
+
   /* --- 1. Spotlight Mouse Glow Effect & 3D Tilt Card --- */
   const cursorGlow = document.getElementById('cursor-glow');
   const tiltCard = document.getElementById('tilt-card');
@@ -509,12 +532,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const webhookUrl = (typeof CONFIG !== 'undefined' && CONFIG.DISCORD_WEBHOOK_URL) 
-      ? CONFIG.DISCORD_WEBHOOK_URL.trim() 
-      : '';
+    const webhookUrl = (envConfig.DISCORD_WEBHOOK_URL || (typeof CONFIG !== 'undefined' && CONFIG.DISCORD_WEBHOOK_URL) || '').trim();
 
     if (!webhookUrl || !webhookUrl.startsWith('https://discord.com/api/webhooks/')) {
-      showToast('Discord Webhook URL is not configured in config.js!', 'error');
+      showToast('Discord Webhook URL is not configured in .env file!', 'error');
       return;
     }
 
