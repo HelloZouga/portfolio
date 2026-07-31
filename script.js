@@ -65,85 +65,188 @@ document.addEventListener('DOMContentLoaded', () => {
   const particles = [];
   const particleCount = Math.floor(width < 768 ? 40 : 85);
 
+  // Section particle pattern definitions per section index
+  const sectionPatterns = ['constellation', 'floatingOrbs', 'matrix', 'hexWeb', 'sparkles', 'starfield', 'waveGrid'];
+  let currentSectionIndex = 0;
+  let targetSectionIndex = 0;
+  let transitionProgress = 1.0; // 0.0 to 1.0 smooth blending transition
+
   class Particle {
-    constructor() {
+    constructor(index) {
+      this.index = index;
       this.reset();
     }
 
     reset() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 0.45;
-      this.vy = (Math.random() - 0.5) * 0.45;
-      this.radius = Math.random() * 2 + 1;
-      this.alpha = Math.random() * 0.6 + 0.2;
+      this.vx = (Math.random() - 0.5) * 0.6;
+      this.vy = (Math.random() - 0.5) * 0.6;
+      this.radius = Math.random() * 2.5 + 1;
+      this.alpha = Math.random() * 0.6 + 0.25;
+      this.angle = Math.random() * Math.PI * 2;
+      this.speed = Math.random() * 0.5 + 0.2;
+      this.pulse = Math.random() * Math.PI;
     }
 
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
+    update(patternIndex) {
+      this.pulse += 0.03;
+      const pattern = sectionPatterns[patternIndex % sectionPatterns.length];
 
-      if (this.x < 0 || this.x > width) this.vx *= -1;
-      if (this.y < 0 || this.y > height) this.vy *= -1;
+      switch (pattern) {
+        case 'floatingOrbs': // Slow upward floating large glowing spheres
+          this.y -= this.speed * 0.7;
+          this.x += Math.sin(this.pulse) * 0.4;
+          if (this.y < -20) { this.y = height + 20; this.x = Math.random() * width; }
+          break;
+
+        case 'matrix': // Vertical downward rain stream lines
+          this.y += this.speed * 2.2 + 0.8;
+          if (this.y > height + 20) { this.y = -20; this.x = Math.random() * width; }
+          break;
+
+        case 'hexWeb': // Orbital geometric drift
+          this.angle += 0.01;
+          this.x += Math.cos(this.angle) * 0.8;
+          this.y += Math.sin(this.angle) * 0.8;
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+          break;
+
+        case 'sparkles': // Pulsing twinkling shimmering stars
+          this.x += this.vx * 0.3;
+          this.y += this.vy * 0.3;
+          this.alpha = 0.2 + (Math.sin(this.pulse * 1.5) + 1) * 0.35;
+          if (this.x < 0 || this.x > width) this.x = Math.random() * width;
+          if (this.y < 0 || this.y > height) this.y = Math.random() * height;
+          break;
+
+        case 'starfield': // Radial outward speed warp drive expansion
+          const dx = this.x - width / 2;
+          const dy = this.y - height / 2;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          this.x += (dx / dist) * (this.speed * 2.5);
+          this.y += (dy / dist) * (this.speed * 2.5);
+          if (this.x < -50 || this.x > width + 50 || this.y < -50 || this.y > height + 50) {
+            this.x = width / 2 + (Math.random() - 0.5) * 100;
+            this.y = height / 2 + (Math.random() - 0.5) * 100;
+          }
+          break;
+
+        case 'waveGrid': // Horizontal sine wave oscillation
+          this.x += this.speed * 0.8;
+          this.y += Math.sin(this.x * 0.015 + this.pulse) * 0.6;
+          if (this.x > width + 20) { this.x = -20; this.y = Math.random() * height; }
+          break;
+
+        case 'constellation':
+        default: // Classic connecting mesh physics
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+          break;
+      }
     }
 
-    draw() {
+    getThemeColor(alphaMultiplier = 1.0) {
       const theme = document.documentElement.getAttribute('data-theme');
+      const a = Math.min(1, this.alpha * alphaMultiplier);
+      switch (theme) {
+        case 'purple':
+          return `rgba(192, 132, 252, ${a})`;
+        case 'orange':
+          return `rgba(251, 146, 60, ${a})`;
+        case 'darkblue':
+          return `rgba(96, 165, 250, ${a})`;
+        case 'red':
+          return `rgba(248, 113, 113, ${a})`;
+        case 'light':
+          return `rgba(15, 23, 42, ${a * 0.75})`;
+        case 'dark':
+        default:
+          return `rgba(255, 255, 255, ${a})`;
+      }
+    }
+
+    getLineColor(dist, maxDist = 130) {
+      const theme = document.documentElement.getAttribute('data-theme');
+      const factor = (1 - dist / maxDist);
+      switch (theme) {
+        case 'purple':
+          return `rgba(168, 85, 247, ${0.3 * factor})`;
+        case 'orange':
+          return `rgba(249, 115, 22, ${0.3 * factor})`;
+        case 'darkblue':
+          return `rgba(59, 130, 246, ${0.3 * factor})`;
+        case 'red':
+          return `rgba(239, 68, 68, ${0.3 * factor})`;
+        case 'light':
+          return `rgba(15, 23, 42, ${0.18 * factor})`;
+        case 'dark':
+        default:
+          return `rgba(255, 255, 255, ${0.18 * factor})`;
+      }
+    }
+
+    draw(patternIndex) {
+      const pattern = sectionPatterns[patternIndex % sectionPatterns.length];
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      if (theme === 'purple') {
-        ctx.fillStyle = `rgba(192, 132, 252, ${this.alpha})`;
-      } else if (theme === 'orange') {
-        ctx.fillStyle = `rgba(251, 146, 60, ${this.alpha})`;
-      } else if (theme === 'darkblue') {
-        ctx.fillStyle = `rgba(96, 165, 250, ${this.alpha})`;
-      } else if (theme === 'red') {
-        ctx.fillStyle = `rgba(248, 113, 113, ${this.alpha})`;
-      } else if (theme === 'light') {
-        ctx.fillStyle = `rgba(15, 23, 42, ${this.alpha * 0.6})`;
+
+      if (pattern === 'floatingOrbs') {
+        const rad = this.radius * 2.8;
+        ctx.arc(this.x, this.y, rad, 0, Math.PI * 2);
+        ctx.fillStyle = this.getThemeColor(0.8);
+      } else if (pattern === 'matrix') {
+        ctx.rect(this.x, this.y, 2, this.radius * 4);
+        ctx.fillStyle = this.getThemeColor(0.9);
+      } else if (pattern === 'sparkles') {
+        const rad = this.radius * (1 + Math.sin(this.pulse) * 0.5);
+        ctx.arc(this.x, this.y, rad, 0, Math.PI * 2);
+        ctx.fillStyle = this.getThemeColor(1.0);
       } else {
-        ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.getThemeColor(1.0);
       }
       ctx.fill();
     }
   }
 
   for (let i = 0; i < particleCount; i++) {
-    particles.push(new Particle());
+    particles.push(new Particle(i));
   }
 
   function animateParticles() {
     ctx.clearRect(0, 0, width, height);
 
+    if (transitionProgress < 1.0) {
+      transitionProgress += 0.03;
+      if (transitionProgress > 1.0) transitionProgress = 1.0;
+    }
+
+    const patternIndex = transitionProgress < 0.5 ? currentSectionIndex : targetSectionIndex;
+
     for (let i = 0; i < particles.length; i++) {
-      particles[i].update();
-      particles[i].draw();
+      particles[i].update(patternIndex);
+      particles[i].draw(patternIndex);
 
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+      // Draw connecting lines for network-based section modes (constellation, hexWeb, waveGrid)
+      const currentPatternName = sectionPatterns[patternIndex % sectionPatterns.length];
+      if (['constellation', 'hexWeb', 'waveGrid', 'sparkles'].includes(currentPatternName)) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const maxDist = currentPatternName === 'hexWeb' ? 150 : 125;
 
-        if (dist < 130) {
-          const theme = document.documentElement.getAttribute('data-theme');
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          if (theme === 'purple') {
-            ctx.strokeStyle = `rgba(168, 85, 247, ${0.25 * (1 - dist / 130)})`;
-          } else if (theme === 'orange') {
-            ctx.strokeStyle = `rgba(249, 115, 22, ${0.25 * (1 - dist / 130)})`;
-          } else if (theme === 'darkblue') {
-            ctx.strokeStyle = `rgba(59, 130, 246, ${0.25 * (1 - dist / 130)})`;
-          } else if (theme === 'red') {
-            ctx.strokeStyle = `rgba(239, 68, 68, ${0.25 * (1 - dist / 130)})`;
-          } else if (theme === 'light') {
-            ctx.strokeStyle = `rgba(15, 23, 42, ${0.15 * (1 - dist / 130)})`;
-          } else {
-            ctx.strokeStyle = `rgba(255, 255, 255, ${0.15 * (1 - dist / 130)})`;
+          if (dist < maxDist) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = particles[i].getLineColor(dist, maxDist);
+            ctx.lineWidth = currentPatternName === 'hexWeb' ? 1.0 : 0.75;
+            ctx.stroke();
           }
-          ctx.lineWidth = 0.8;
-          ctx.stroke();
         }
       }
     }
@@ -153,20 +256,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   animateParticles();
 
+  // Active section tracking & transition trigger
+  const sectionElements = Array.from(document.querySelectorAll('section[id]'));
+  
+  function updateActiveSectionBackground() {
+    let newIndex = 0;
+    const scrollPos = window.scrollY + window.innerHeight / 3;
+
+    sectionElements.forEach((sec, idx) => {
+      if (scrollPos >= sec.offsetTop) {
+        newIndex = idx;
+      }
+    });
+
+    if (newIndex !== targetSectionIndex) {
+      currentSectionIndex = targetSectionIndex;
+      targetSectionIndex = newIndex;
+      transitionProgress = 0.0; // Trigger smooth particle shift transition
+    }
+  }
+
+  window.addEventListener('scroll', updateActiveSectionBackground);
+  updateActiveSectionBackground();
+
   window.addEventListener('resize', () => {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
   });
 
-  // Dynamic Canvas Particle Opacity (Keeps background canvas visible on Hero page, fades out on lower sections)
-  window.addEventListener('scroll', () => {
-    const heroHeight = document.getElementById('hero')?.offsetHeight || window.innerHeight;
-    const scrollY = window.scrollY;
-    // Fade out canvas opacity smoothly between 50% and 100% of Hero height
-    const opacity = Math.max(0, 0.85 - (scrollY / heroHeight) * 0.85);
-    canvas.style.opacity = opacity;
-    canvas.style.transition = 'opacity 0.3s ease-out';
-  });
+  // Keep canvas background fully visible across all sections
+  canvas.style.opacity = '0.85';
 
   /* --- 3. Animated Number Counters on Scroll --- */
   const counters = document.querySelectorAll('.counter');
