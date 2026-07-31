@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aris Zouga | Senior Full Stack & AI Architect</title>
+  <meta name="description" content="Portfolio of Aris Zouga - Senior Full Stack Software Architect specializing in scalable web apps, distributed systems, and modern interactive UI.">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Background Animated Particle Canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Interactive Mouse Spotlight Cursor Effect -->
+  <div class="cursor-glow" id="cursor-glow"></div>
+
+  <!-- Scroll Progress Indicator -->
+  <div class="scroll-progress" id="scroll-progress"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="#hero" class="logo">
+        <span class="gradient-text">Aris Zouga</span><span class="logo-dot"></span>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#timeline" class="nav-link">Experience</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#testimonials" class="nav-link">Recommendations</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle Light/Dark Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <div class="mobile-menu-btn" id="mobile-menu-btn">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-text-content">
+          <div class="hero-badge">
+            <span class="pulse-dot"></span> Available for Select Engineering Roles
+          </div>
+          <h1 class="hero-title">
+            Architecting Modern <br><span class="gradient-text">Systems & Interfaces</span>
+          </h1>
+          <div class="hero-subtitle">
+            I am <span id="typed-text"></span><span class="typed-cursor">|</span>
+          </div>
+          <p class="hero-description">
+            Passionate Senior Software Engineer dedicated to crafting high-performance distributed systems, monochrome aesthetic user interfaces, and intelligent web applications.
+          </p>
+
+          <div class="hero-cta">
+            <a href="#projects" class="btn btn-primary">
+              <i class="fa-solid fa-rocket"></i> Explore Work
+            </a>
+            <a href="#contact" class="btn btn-secondary">
+              <i class="fa-solid fa-paper-plane"></i> Get In Touch
+            </a>
+          </div>
+
+          <div class="social-links">
+            <a href="https://github.com" target="_blank" class="social-icon" title="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://linkedin.com" target="_blank" class="social-icon" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://twitter.com" target="_blank" class="social-icon" title="Twitter / X"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="mailto:ariszouga@gmail.com" class="social-icon" title="Email"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <!-- Interactive 3D Card Showcase (Monochrome Silver/Black Theme) -->
+        <div class="hero-avatar-wrapper">
+          <div class="avatar-glow"></div>
+          <div class="code-terminal-card tilt-card" id="tilt-card">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="terminal-title">aris_zouga.ts</div>
+            </div>
+            <div class="terminal-body">
+              <pre><code><span class="code-keyword">const</span> <span class="code-def">architect</span> = {
+  name: <span class="code-string">"Aris Zouga"</span>,
+  role: <span class="code-string">"Full Stack & AI Engineer"</span>,
+  palette: <span class="code-string">"Monochrome Silver & Platinum"</span>,
+  passions: [
+    <span class="code-string">"High Throughput Systems"</span>,
+    <span class="code-string">"Clean Dynamic UI Architecture"</span>,
+    <span class="code-string">"Scalable Cloud Microservices"</span>
+  ],
+  status: <span class="code-string">"Building with precision ⚙️"</span>
+};
+
+<span class="code-comment">// Move your mouse over this card to feel 3D tilt!</span>
+<span class="code-def">architect</span>.executeCode();</code></pre>
+            </div>
+          </div>
+
+          <div class="experience-badge-float">
+            <div class="badge-number">7+</div>
+            <div class="badge-text">Years of<br>Excellence</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About & Skills Section -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Engineering Philosophy</span>
+        <h2 class="section-title">About Me</h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <h3>Minimalist Aesthetics, Maximal Performance</h3>
+          <p class="about-text">
+            Hi, I'm <strong>Aris Zouga</strong>. I specialize in building resilient web applications and server architectures where performance, elegance, and reliability meet.
+          </p>
+          <p class="about-text">
+            My expertise spans modern frontend frameworks, cloud infrastructure, microservices, and AI integrations designed with timeless black, silver, and platinum design elements.
+          </p>
+
+          <div class="key-stats">
+            <div class="stat-item">
+              <h4 class="counter" data-target="40">0</h4>
+              <p>Completed Projects</p>
+            </div>
+            <div class="stat-item">
+              <h4 class="counter-float" data-target="99.9">0</h4>
+              <p>System Uptime %</p>
+            </div>
+            <div class="stat-item">
+              <h4 class="counter" data-target="15">0</h4>
+              <p>Million Requests / Day</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="skills-wrapper" id="skills">
+          <div class="skill-tabs">
+            <button class="skill-tab-btn active" data-category="frontend">Frontend</button>
+            <button class="skill-tab-btn" data-category="backend">Backend & Cloud</button>
+            <button class="skill-tab-btn" data-category="tools">Tools & DevOps</button>
+          </div>
+
+          <div class="skills-container" id="skills-list">
+            <!-- Dynamically Rendered by script.js -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience / Career Timeline Section -->
+  <section class="section" id="timeline">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Career Journey</span>
+        <h2 class="section-title">Work Experience</h2>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">2023 - PRESENT</div>
+            <h3 class="timeline-title">Lead Software Architect</h3>
+            <div class="timeline-company">Silverline Systems</div>
+            <p class="timeline-desc">
+              Spearheading distributed cloud architectures, real-time analytics platforms, and minimalist silver-themed UI design systems.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">2021 - 2023</div>
+            <h3 class="timeline-title">Senior Full Stack Engineer</h3>
+            <div class="timeline-company">Monochrome AI Labs</div>
+            <p class="timeline-desc">
+              Built low-latency LLM streaming interfaces, integrated vector databases (Pinecone/Qdrant), and scaled high-concurrency microservices.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">2019 - 2021</div>
+            <h3 class="timeline-title">Frontend Systems Engineer</h3>
+            <div class="timeline-company">Vanguard Interactive</div>
+            <p class="timeline-desc">
+              Designed reactive web design systems, dynamic particle engines, and optimized client-side state rendering.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects Section -->
+  <section class="section" id="projects">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Portfolio Showcase</span>
+        <h2 class="section-title">Featured Projects</h2>
+      </div>
+
+      <div class="portfolio-filter">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="web">Web Applications</button>
+        <button class="filter-btn" data-filter="ai">AI / ML</button>
+        <button class="filter-btn" data-filter="cloud">Cloud / Systems</button>
+      </div>
+
+      <div class="projects-grid" id="projects-grid">
+        <!-- Dynamically Populated by script.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Recommendations / Testimonials -->
+  <section class="section" id="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Endorsements</span>
+        <h2 class="section-title">What Colleagues Say</h2>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <i class="fa-solid fa-quote-left quote-icon"></i>
+          <p class="testimonial-text">
+            "Aris Zouga combines elite system design skills with a stunning eye for sleek aesthetic detail. His code is clean, robust, and lightning fast."
+          </p>
+          <div class="author-info">
+            <div>
+              <div class="author-name">Sarah Jenkins</div>
+              <div class="author-role">VP of Product at Silverline Systems</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <i class="fa-solid fa-quote-left quote-icon"></i>
+          <p class="testimonial-text">
+            "Aris delivered our high-scale AI engine ahead of deadline. His silver/black design system gave our app an ultra-premium feel."
+          </p>
+          <div class="author-info">
+            <div>
+              <div class="author-name">David Chen</div>
+              <div class="author-role">CTO at Monochrome AI</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <i class="fa-solid fa-quote-left quote-icon"></i>
+          <p class="testimonial-text">
+            "Working with Aris is a pleasure. His mastery over micro-interactions and performant web APIs set a new benchmark for our team."
+          </p>
+          <div class="author-info">
+            <div>
+              <div class="author-name">Elena Rostova</div>
+              <div class="author-role">Design Lead at Vanguard</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Get In Touch</span>
+        <h2 class="section-title">Let's Connect</h2>
+      </div>
+
+      <div class="contact-wrapper">
+        <div class="contact-info">
+          <h3 class="contact-info-title">Contact Aris Zouga</h3>
+          <p class="contact-info-desc">
+            Interested in starting a project or inquiring about technical architecture leadership? Send a message directly below:
+          </p>
+
+          <div class="info-item">
+            <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div class="info-text">
+              <label>Email</label>
+              <p><a href="mailto:ariszouga@gmail.com" style="color: inherit; text-decoration: underline;">ariszouga@gmail.com</a></p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+            <div class="info-text">
+              <label>Location</label>
+              <p>San Francisco, CA & Remote</p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon"><i class="fa-solid fa-briefcase"></i></div>
+            <div class="info-text">
+              <label>Availability</label>
+              <p>Open for Consulting & Select Roles</p>
+            </div>
+          </div>
+        </div>
+
+        <form class="contact-form" id="contact-form">
+          <!-- Discord Webhook Configuration loaded from config.js -->
+
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="John Doe" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Your Email</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" class="form-control" placeholder="Project Inquiry / Hiring" required>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" class="form-control" placeholder="Write your message here..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="contact-submit-btn">
+            <i class="fa-solid fa-paper-plane"></i> Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Project Details Modal -->
+  <div class="modal" id="project-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close"><i class="fa-solid fa-xmark"></i></button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>&copy; 2026 Aris Zouga. Designed & Engineered in Black & Silver.</p>
+    </div>
+  </footer>
+
+  <!-- Configuration & Main Logic Scripts -->
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
