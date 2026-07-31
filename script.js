@@ -158,6 +158,16 @@ document.addEventListener('DOMContentLoaded', () => {
     height = canvas.height = window.innerHeight;
   });
 
+  // Dynamic Canvas Particle Opacity (Keeps background canvas visible on Hero page, fades out on lower sections)
+  window.addEventListener('scroll', () => {
+    const heroHeight = document.getElementById('hero')?.offsetHeight || window.innerHeight;
+    const scrollY = window.scrollY;
+    // Fade out canvas opacity smoothly between 50% and 100% of Hero height
+    const opacity = Math.max(0, 0.85 - (scrollY / heroHeight) * 0.85);
+    canvas.style.opacity = opacity;
+    canvas.style.transition = 'opacity 0.3s ease-out';
+  });
+
   /* --- 3. Animated Number Counters on Scroll --- */
   const counters = document.querySelectorAll('.counter');
   const floatCounters = document.querySelectorAll('.counter-float');
